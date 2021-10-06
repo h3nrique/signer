@@ -1,5 +1,13 @@
 package org.demoiselle.signer.signer.examples;
 
+import org.demoiselle.signer.chain.icp.brasil.provider.impl.ICPBrasilUserHomeProviderCA;
+import org.demoiselle.signer.core.keystore.loader.KeyStoreLoader;
+import org.demoiselle.signer.core.keystore.loader.factory.KeyStoreLoaderFactory;
+import org.demoiselle.signer.policy.engine.factory.PolicyFactory;
+import org.demoiselle.signer.policy.impl.cades.SignerAlgorithmEnum;
+import org.demoiselle.signer.policy.impl.cades.factory.PKCS7Factory;
+import org.demoiselle.signer.policy.impl.cades.pkcs7.PKCS7Signer;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,17 +23,9 @@ import java.security.cert.X509Certificate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.demoiselle.signer.chain.icp.brasil.provider.impl.ICPBrasilUserHomeProviderCA;
-import org.demoiselle.signer.core.keystore.loader.KeyStoreLoader;
-import org.demoiselle.signer.core.keystore.loader.factory.KeyStoreLoaderFactory;
-import org.demoiselle.signer.policy.engine.factory.PolicyFactory.Policies;
-import org.demoiselle.signer.policy.impl.cades.SignerAlgorithmEnum;
-import org.demoiselle.signer.policy.impl.cades.factory.PKCS7Factory;
-import org.demoiselle.signer.policy.impl.cades.pkcs7.PKCS7Signer;
+public class CadesSignerExample {
 
-public class Signer {
-
-	private static final Logger LOGGER = Logger.getLogger(Signer.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(CadesSignerExample.class.getName());
 
 	public static void main(String[] args) throws Throwable {
 
@@ -34,14 +34,14 @@ public class Signer {
 
 		LOGGER.log(Level.INFO, "============= Iniciando aplicação =============");
 
-		Path p7sFilePath = Paths.get(homeUser, "textoAssinado." + Policies.AD_RB_CADES_2_0.toString() + ".p7s");
-		sign(textToSign, p7sFilePath, Policies.AD_RB_CADES_2_0, SignerAlgorithmEnum.SHA256withRSA);
+		Path p7sFilePath = Paths.get(homeUser, "textoAssinado." + PolicyFactory.Policies.AD_RB_CADES_2_0.toString() + ".p7s");
+		sign(textToSign, p7sFilePath, PolicyFactory.Policies.AD_RB_CADES_2_0, SignerAlgorithmEnum.SHA256withRSA);
 
-		p7sFilePath = Paths.get(homeUser, "textoAssinado." + Policies.AD_RB_CADES_2_1.toString() + ".p7s");
-		sign(textToSign, p7sFilePath, Policies.AD_RB_CADES_2_1, SignerAlgorithmEnum.SHA256withRSA);
+		p7sFilePath = Paths.get(homeUser, "textoAssinado." + PolicyFactory.Policies.AD_RB_CADES_2_1.toString() + ".p7s");
+		sign(textToSign, p7sFilePath, PolicyFactory.Policies.AD_RB_CADES_2_1, SignerAlgorithmEnum.SHA256withRSA);
 
-		p7sFilePath = Paths.get(homeUser, "textoAssinado." + Policies.AD_RB_CADES_2_2.toString() + ".p7s");
-		sign(textToSign, p7sFilePath, Policies.AD_RB_CADES_2_2, SignerAlgorithmEnum.SHA512withRSA);
+		p7sFilePath = Paths.get(homeUser, "textoAssinado." + PolicyFactory.Policies.AD_RB_CADES_2_2.toString() + ".p7s");
+		sign(textToSign, p7sFilePath, PolicyFactory.Policies.AD_RB_CADES_2_2, SignerAlgorithmEnum.SHA512withRSA);
 
 		LOGGER.log(Level.INFO, "============= Finalizando aplicação =============");
 
@@ -56,7 +56,7 @@ public class Signer {
 	public static String password;
 	public static Certificate[] certificateChain;
 
-	public static void sign(String text, Path pathP7s, Policies police, SignerAlgorithmEnum algorithm)
+	private static void sign(String text, Path pathP7s, PolicyFactory.Policies police, SignerAlgorithmEnum algorithm)
 			throws KeyStoreException, IOException, UnrecoverableKeyException, NoSuchAlgorithmException {
 
 		LOGGER.log(Level.INFO, "===== " + police.toString() + " =====");
@@ -90,11 +90,9 @@ public class Signer {
 		System.out.println(">>>>>>>>>> Validando a assinatura");
 
 		// Valida
-		signer.check(content, sign);
+//		signer.check(content, sign);
 
 		ByteArrayInputStream bis = new ByteArrayInputStream(sign);
-
-		Files.copy(bis, pathP7s, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
 
 	}
 

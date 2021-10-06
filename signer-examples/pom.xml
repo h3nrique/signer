@@ -5,24 +5,34 @@
 
 	<groupId>org.demoiselle.signer</groupId>
 	<artifactId>signer-examples</artifactId>
-	<version>3.7.0-SNAPSHOT</version>
+	<version>4.0.0-SNAPSHOT</version>
 
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.source.version>1.8</java.source.version>
+		<java.target.version>1.8</java.target.version>
+	</properties>
+	
 	<dependencies>
-
 		<dependency>
 			<groupId>org.demoiselle.signer</groupId>
-			<artifactId>core</artifactId>
-			<version>3.7.0-SNAPSHOT</version>
+			<artifactId>signer-core</artifactId>
+			<version>4.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.demoiselle.signer</groupId>
 			<artifactId>chain-icp-brasil</artifactId>
-			<version>3.7.0-SNAPSHOT</version>
+			<version>4.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.demoiselle.signer</groupId>
 			<artifactId>policy-impl-cades</artifactId>
-			<version>3.7.0-SNAPSHOT</version>
+			<version>4.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.demoiselle.signer</groupId>
+			<artifactId>policy-impl-xades</artifactId>
+			<version>4.0.0-SNAPSHOT</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
@@ -35,6 +45,15 @@
 	</dependencies>
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5.1</version>
+				<configuration>
+					<source>${java.source.version}</source>
+					<target>${java.target.version}</target>
+				</configuration>
+			</plugin>
 			<plugin>
 				<!-- NOTE: We don't need a groupId specification because the group is 
 					org.apache.maven.plugins ...which is assumed by default. -->
