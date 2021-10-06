@@ -32,8 +32,20 @@ public class XadesSignerExample {
 
 		LOGGER.log(Level.INFO, "============= Iniciando aplicação =============");
 
-		Path xmlFilePath = Paths.get(homeUser, "exemplo." + PolicyFactory.Policies.AD_RB_XADES_2_4 + ".xml");
+		Path xmlFilePath = Paths.get(homeUser, "exemplo." + XMLPoliciesOID.AD_RB_XADES_2_4 + ".xml");
 		sign(xmlFilePath, certAlias, XMLPoliciesOID.AD_RB_XADES_2_4);
+
+//		xmlFilePath = Paths.get(homeUser, "exemplo." + XMLPoliciesOID.AD_RT_XADES_2_4 + ".xml");
+//		sign(xmlFilePath, certAlias, XMLPoliciesOID.AD_RT_XADES_2_4);
+//
+//		xmlFilePath = Paths.get(homeUser, "exemplo." + XMLPoliciesOID.AD_RV_XADES_2_4 + ".xml");
+//		sign(xmlFilePath, certAlias, XMLPoliciesOID.AD_RV_XADES_2_4);
+//
+//		xmlFilePath = Paths.get(homeUser, "exemplo." + XMLPoliciesOID.AD_RC_XADES_2_4 + ".xml");
+//		sign(xmlFilePath, certAlias, XMLPoliciesOID.AD_RC_XADES_2_4);
+//
+//		xmlFilePath = Paths.get(homeUser, "exemplo." + XMLPoliciesOID.AD_RA_XADES_2_4 + ".xml");
+//		sign(xmlFilePath, certAlias, XMLPoliciesOID.AD_RA_XADES_2_4);
 
 		LOGGER.log(Level.INFO, "============= Finalizando aplicação =============");
 
@@ -41,14 +53,13 @@ public class XadesSignerExample {
 
 	public static KeyStoreLoader keyStoreLoader;
 	public static KeyStore keyStore;
-	public static String alias;
 	public static X509Certificate certificate;
 	public static PrivateKey privateKey;
 	// public static PinHandler pinHandler;
 	public static String password;
 	public static Certificate[] certificateChain;
 
-	private static void sign(Path xmlFilePath, String certAlias, XMLPoliciesOID police)
+	private static void sign(Path xmlFilePath, String alias, XMLPoliciesOID police)
 		throws KeyStoreException, UnrecoverableKeyException, NoSuchAlgorithmException, IOException {
 
 		LOGGER.log(Level.INFO, "===== " + police.toString() + " =====");
@@ -65,14 +76,13 @@ public class XadesSignerExample {
 			keyStoreLoader = KeyStoreLoaderFactory.factoryKeyStoreLoader();
 //			 keyStoreLoader.setCallbackHandler(pinHandler);
 			keyStore = keyStoreLoader.getKeyStore();
-			if (keyStore.aliases().nextElement().equalsIgnoreCase(certAlias)) {
-				certificate = (X509Certificate) keyStore.getCertificate(alias);
-				privateKey = (PrivateKey) keyStore.getKey(alias, null);
-				certificateChain = keyStore.getCertificateChain(alias);
-			}
+			certificate = (X509Certificate) keyStore.getCertificate(alias);
+			privateKey = (PrivateKey) keyStore.getKey(alias, null);
+			certificateChain = keyStore.getCertificateChain(alias);
 		}
 
 		signer.setPrivateKey(privateKey);
+		signer.setCertificateChain(certificateChain);
 		signer.setPolicyId(police.getOID());
 
 		Document document = signer.signEnveloped(textXml);
