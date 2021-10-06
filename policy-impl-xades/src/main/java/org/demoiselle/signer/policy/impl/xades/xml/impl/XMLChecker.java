@@ -97,12 +97,12 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 /**
- * 
+ *
  * This implementation is based in XAdEs standard, available in
  * https://www.w3.org/TR/XAdES/ and Brazilian digital signature standards
  * presented in
  * https://www.gov.br/iti/pt-br/centrais-de-conteudo/doc-icp-15-03-versao-7-4-req-das-pol-de-assin-dig-na-icp-brasil-pdf
- * 
+ *
  * @author Fabiano Kuss <fabiano.kuss@serpro.gov.br>
  * @author Emerson Saito <emerson.saito@serpro.gov.br>
  *
@@ -120,9 +120,9 @@ public class XMLChecker implements Checker{
 	private LinkedList<String> validationWaring = new LinkedList<String>();
 
 	/**
-	 * Verify signature from File Name and location. 
+	 * Verify signature from File Name and location.
 	 * (example: check(true,"/tmp/file.xml");
-	 * 
+	 *
 	 * @param isFileLocation true if the next parameter is a path and name for XML file
 	 * @param xmlSignedFile path and name for XML file
 	 * @return
@@ -149,9 +149,9 @@ public class XMLChecker implements Checker{
 	}
 
 	/**
-	 * * XML signature validation using byte[] data. 
+	 * * XML signature validation using byte[] data.
 	 * The content must contains both content and signature
-	 * 
+	 *
 	 * @param docData
 	 * @return
 	 */
@@ -167,11 +167,11 @@ public class XMLChecker implements Checker{
 	}
 
 	/**
-	 * 
-	 * XML signature validation using document. 
+	 *
+	 * XML signature validation using document.
 	 * The file must contains both content and signature
-	 * 
-	 * @param DOM document
+	 *
+	 * @param doc DOM document
 	 */
 	@Override
 	public boolean check(Document doc) throws XMLSignerException {
@@ -184,10 +184,10 @@ public class XMLChecker implements Checker{
 	}
 
 	/**
-	 * 
+	 *
 	 * XML signature validation with detached content from path and file names
 	 * example: check("/tmp/signedFile","/tmp/signaturefile.xml")
-	 * 
+	 *
 	 * @param signedContentFileName
 	 * @param signatureFileName
 	 * @return
@@ -212,19 +212,19 @@ public class XMLChecker implements Checker{
 
 		return check(DocumentUtils.readContent(signedContentFileName), DocumentUtils.loadXMLDocument(signatureFileName));
 	}
-	
-	
-	
+
+
+
 	/**
 	 * XML signature validation with detached content .
-	 * 
+	 *
 	 * @param signedContent a signed content in byte[] format
 	 * @param signature     the XML signature in byte[] format
 	 * @return
 	 */
 	@Override
 	public boolean check(byte[] signedContent, byte[] signature) throws XMLSignerException {
-		
+
 		if (signedContent == null || signedContent.length <= 0) {
 			logger.error(xadesMessagesBundle.getString("error.xml.parameter.null", "byte[] signedContent"));
 			throw new XMLSignerException(
@@ -240,7 +240,7 @@ public class XMLChecker implements Checker{
 
 	/**
 	 *  XML signature validation from InputStream that represents a XML file
-	 * @param isXML
+	 * @param isXMLFile Input Stream XML
 	 * @return
 	 */
 	@Override
@@ -250,11 +250,11 @@ public class XMLChecker implements Checker{
 			throw new XMLSignerException(
 					xadesMessagesBundle.getString("error.xml.parameter.null", "InputStream isXMLFile"));
 		}
-		return check(DocumentUtils.loadXMLDocument(isXMLFile));		
+		return check(DocumentUtils.loadXMLDocument(isXMLFile));
 	}
-	
+
 	/**
-	 * XML signature detached validation from InputStream that represents a content and XML Signature 
+	 * XML signature detached validation from InputStream that represents a content and XML Signature
 	 * @param isContent
 	 * @param isXMLSignature
 	 * @return
@@ -277,12 +277,12 @@ public class XMLChecker implements Checker{
 			logger.error(xadesMessagesBundle.getString("error.io", e.getMessage()));
 			throw new XMLSignerException(
 					xadesMessagesBundle.getString("error.io", e.getMessage()));
-		}		
+		}
 	}
-		
+
 	@Override
 	public boolean checkHash(byte[] contentHash, String xmlSignature) throws XMLSignerException {
-		
+
 		if (contentHash == null || contentHash.length <= 0) {
 			logger.error(xadesMessagesBundle.getString("error.xml.parameter.null", "byte[] contentHash"));
 			throw new XMLSignerException(
@@ -298,7 +298,7 @@ public class XMLChecker implements Checker{
 
 	@Override
 	public boolean checkHash(InputStream isContent, Document xmlSignature) throws XMLSignerException {
-		
+
 		if (isContent == null) {
 			logger.error(xadesMessagesBundle.getString("error.xml.parameter.null", "InputStream isContent"));
 			throw new XMLSignerException(
@@ -316,7 +316,7 @@ public class XMLChecker implements Checker{
 			throw new XMLSignerException(
 					xadesMessagesBundle.getString("error.io", e.getMessage()));
 		}
-		
+
 	}
 
 	@Override
@@ -360,8 +360,8 @@ public class XMLChecker implements Checker{
 					xadesMessagesBundle.getString("error.io", e.getMessage()));
 		}
 	}
-	
-	
+
+
 	/**
 	 * XML signature validation with detached hash content and signature.
 	 * @param docHash
@@ -380,14 +380,14 @@ public class XMLChecker implements Checker{
 					xadesMessagesBundle.getString("error.xml.parameter.null", "byte[] signature"));
 		}
 		return checkHash(docHash , DocumentUtils.loadXMLDocument(signature));
-		
+
 	}
-	
+
 	/**
 	 * Verify signature from String that represents a XML Document
 	 * The content must contains both content and signature
-	 *  
-	 * @param xmlSigned
+	 *
+	 * @param xmlAsString Xml String
 	 * @return
 	*/
 	public boolean check(String xmlAsString) {
@@ -400,13 +400,13 @@ public class XMLChecker implements Checker{
 		Document doc = DocumentUtils.loadXMLDocumentFromString(xmlAsString);
 		return verify(doc);
 	}
-	 
 
-	
-	
+
+
+
 	/**
 	 * Check detached Signature with signed data content
-	 * 
+	 *
 	 * @param docData
 	 * @param signature
 	 * @return
@@ -453,7 +453,7 @@ public class XMLChecker implements Checker{
 
 	/**
 	 * Check detached Signature with signed hash from signed data
-	 * 
+	 *
 	 * @param docHash
 	 * @param signature
 	 * @return
@@ -484,12 +484,12 @@ public class XMLChecker implements Checker{
 			if (mandatory) {
 				validationErrors.add(xadesMessagesBundle.getString("error.xml.element.not.found", tagName));
 				logger.error(xadesMessagesBundle.getString("error.xml.element.not.found", tagName));
-			}				
+			}
 			else {
 				validationWaring.add(xadesMessagesBundle.getString("error.xml.element.not.found", tagName));
 				logger.warn(xadesMessagesBundle.getString("error.xml.element.not.found", tagName));
-			}	
-				
+			}
+
 		}
 		return (Element) value.item(0);
 	}
@@ -511,12 +511,12 @@ public class XMLChecker implements Checker{
 				validationErrors.add(xadesMessagesBundle.getString("error.xml.element.not.found", tagName));
 				logger.error(xadesMessagesBundle.getString("error.xml.element.not.found", tagName));
 			}
-				
+
 			else {
 				validationWaring.add(xadesMessagesBundle.getString("error.xml.element.not.found", tagName));
 				logger.warn(xadesMessagesBundle.getString("error.xml.element.not.found", tagName));
 			}
-				
+
 			return null;
 		}
 		return (Element) value.item(0);
@@ -529,12 +529,12 @@ public class XMLChecker implements Checker{
 				validationErrors.add(xadesMessagesBundle.getString("error.xml.element.not.found", attr));
 				logger.error(xadesMessagesBundle.getString("error.xml.element.not.found", attr));
 			}
-				
+
 			else {
 				validationWaring.add(xadesMessagesBundle.getString("error.xml.element.not.found", attr));
 				logger.warn(xadesMessagesBundle.getString("error.xml.element.not.found", attr));
 			}
-				
+
 		}
 		return attribute;
 	}
@@ -792,7 +792,7 @@ public class XMLChecker implements Checker{
 		}
 
 		int sizeSigList = signatureListTags.getLength();
-		
+
 		if (sizeSigList < 1) {
 			validationErrors.add(xadesMessagesBundle.getString("error.xml.signature.not.found"));
 			logger.error(xadesMessagesBundle.getString("error.xml.signature.not.found"));
@@ -800,7 +800,7 @@ public class XMLChecker implements Checker{
 			sigInf.setValidatorErrors(validationErrors);
 			signaturesInfo.add(sigInf);
 			return signatureOK;
-		} else {			
+		} else {
 			for (int i = 0; i < sizeSigList; i++) {
 
 				XMLSignatureInformations sigInf = new XMLSignatureInformations();
@@ -960,7 +960,7 @@ public class XMLChecker implements Checker{
 				sigInf.setValidatorErrors(validationErrors);
 				sigInf.setValidatorWarnins(validationWaring);
 				signaturesInfo.add(sigInf);
-				
+
 			}
 		}
 		return signatureOK;
