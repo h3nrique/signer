@@ -35,17 +35,17 @@ public class XadesSignerExample {
 		Path xmlFilePath = Paths.get(homeUser, "exemplo." + XMLPoliciesOID.AD_RB_XADES_2_4 + ".xml");
 		sign(xmlFilePath, certAlias, XMLPoliciesOID.AD_RB_XADES_2_4);
 
-//		xmlFilePath = Paths.get(homeUser, "exemplo." + XMLPoliciesOID.AD_RT_XADES_2_4 + ".xml");
-//		sign(xmlFilePath, certAlias, XMLPoliciesOID.AD_RT_XADES_2_4);
-//
-//		xmlFilePath = Paths.get(homeUser, "exemplo." + XMLPoliciesOID.AD_RV_XADES_2_4 + ".xml");
-//		sign(xmlFilePath, certAlias, XMLPoliciesOID.AD_RV_XADES_2_4);
-//
-//		xmlFilePath = Paths.get(homeUser, "exemplo." + XMLPoliciesOID.AD_RC_XADES_2_4 + ".xml");
-//		sign(xmlFilePath, certAlias, XMLPoliciesOID.AD_RC_XADES_2_4);
-//
-//		xmlFilePath = Paths.get(homeUser, "exemplo." + XMLPoliciesOID.AD_RA_XADES_2_4 + ".xml");
-//		sign(xmlFilePath, certAlias, XMLPoliciesOID.AD_RA_XADES_2_4);
+		xmlFilePath = Paths.get(homeUser, "exemplo." + XMLPoliciesOID.AD_RT_XADES_2_4 + ".xml");
+		sign(xmlFilePath, certAlias, XMLPoliciesOID.AD_RT_XADES_2_4);
+
+		xmlFilePath = Paths.get(homeUser, "exemplo." + XMLPoliciesOID.AD_RV_XADES_2_4 + ".xml");
+		sign(xmlFilePath, certAlias, XMLPoliciesOID.AD_RV_XADES_2_4);
+
+		xmlFilePath = Paths.get(homeUser, "exemplo." + XMLPoliciesOID.AD_RC_XADES_2_4 + ".xml");
+		sign(xmlFilePath, certAlias, XMLPoliciesOID.AD_RC_XADES_2_4);
+
+		xmlFilePath = Paths.get(homeUser, "exemplo." + XMLPoliciesOID.AD_RA_XADES_2_4 + ".xml");
+		sign(xmlFilePath, certAlias, XMLPoliciesOID.AD_RA_XADES_2_4);
 
 		LOGGER.log(Level.INFO, "============= Finalizando aplicação =============");
 
@@ -91,7 +91,9 @@ public class XadesSignerExample {
 
 		// Valida
 		XMLChecker checker = XadesChecker.getInstance().factoryDefault();
-		checker.check(document);
+		boolean isValid = checker.check(document);
+
+		System.out.println("isValid :: " + isValid);
 
 	}
 
