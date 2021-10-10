@@ -578,13 +578,13 @@ public class XMLSigner implements Signer {
 		identifier.setTextContent(policyIdentifier.getTextContent());
 		sigPId.appendChild(identifier);
 
-		Element sigTransforms = doc.createElementNS(XMLNS, "ds:Transforms");
-		sigPolicyId.appendChild(sigTransforms);
-
-		Element sigTransform = doc.createElementNS(XMLNS, "ds:Transform");
-		sigTransform.setAttribute("Algorithm", "http://www.w3.org/2001/10/xml-exc-c14n#WithComments");
-
-		sigTransforms.appendChild(sigTransform);
+//		Element sigTransforms = doc.createElementNS(XMLNS, "ds:Transforms");
+//		sigPolicyId.appendChild(sigTransforms);
+//
+//		Element sigTransform = doc.createElementNS(XMLNS, "ds:Transform");
+//		sigTransform.setAttribute("Algorithm", "http://www.w3.org/2001/10/xml-exc-c14n#WithComments");
+//
+//		sigTransforms.appendChild(sigTransform);
 
 		Element sigPolicyHash = doc.createElementNS(XAdESv1_3_2, "xades:SigPolicyHash");
 		sigPolicyId.appendChild(sigPolicyHash);
@@ -854,7 +854,7 @@ public class XMLSigner implements Signer {
 			byte[] docHash = DocumentUtils.getShaCanonizedValue(getSignatureDigest(), docData,
 					"http://www.w3.org/2001/10/xml-exc-c14n#WithComments");
 			//param.put("type", "");
-			param.put("uri", "");
+			param.put("uri", "#".concat(docData.getAttribute("id")));
 			param.put("id", "r".concat(id));
 			param.put("text", "not(ancestor-or-self::ds:Signature)");
 			param.put("alg", "http://www.w3.org/TR/1999/REC-xpath-19991116");
