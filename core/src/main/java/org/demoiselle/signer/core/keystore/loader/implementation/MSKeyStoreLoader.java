@@ -86,7 +86,7 @@ public class MSKeyStoreLoader implements KeyStoreLoader {
 			if (!this.verifyKeyEntry(result)) {
 				DriverKeyStoreLoader driverKeyStoreLoader = new DriverKeyStoreLoader();
 				result = driverKeyStoreLoader.getKeyStore();
-			}			
+			}
 			return result;
 		} catch (KeyStoreException | NoSuchProviderException | IOException
 				| NoSuchAlgorithmException | CertificateException ex) {
@@ -101,7 +101,7 @@ public class MSKeyStoreLoader implements KeyStoreLoader {
 	}
 
 	private boolean verifyKeyEntry(KeyStore ks) {
-	
+
 		boolean isKeyEntry = false;
 		String alias = "";
 		Enumeration<String> e;
@@ -112,7 +112,7 @@ public class MSKeyStoreLoader implements KeyStoreLoader {
 				if(ks.isKeyEntry(alias)) {
 					isKeyEntry = true;
 				}
-				
+
 			}
 
 		} catch (Exception ex) {
@@ -128,6 +128,10 @@ public class MSKeyStoreLoader implements KeyStoreLoader {
 	 */
 	// TODO - verificar se o bug é valida para 1.7 e superior.
 	private void fixAliases(KeyStore keyStore) {
+		double javaSpecVersion = Double.parseDouble(System.getProperty("java.specification.version"));
+		if (javaSpecVersion == 1.8 || javaSpecVersion == 11.0) { // Não identificado problemas na versão do java 8 (1.8.0_275) e java 11 (11.0.9).
+			return;
+		}
 		Field field;
 		KeyStoreSpi keyStoreVeritable;
 
